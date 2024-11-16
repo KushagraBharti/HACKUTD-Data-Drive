@@ -17,16 +17,15 @@ DataDrive is a multi-domain platform that combines **data observability** and **
 
 ### Frontend Setup (YARN as package manager)
 
-To set up and run the frontend:
+Install dependencies:
 
-1. Install dependencies:
-   ```bash
-   cd frontend
-   yarn install
+```bash
+cd frontend
+yarn install
 
-   # to add new dependencies
-   yarn add {}
-   ```
+# to add new dependencies
+yarn add {}
+```
 
 # Vite (React + Typescript) for Frontend
 
