@@ -1,4 +1,8 @@
 from flask import Flask, request, jsonify
+import os
+import json
+import requests
+from dotenv import load_dotenv
 
 # Initialize the Flask app
 app = Flask(__name__)
