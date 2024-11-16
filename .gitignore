@@ -1,0 +1,40 @@
+# Node.js dependencies
+frontend/node_modules/
+
+# Python virtual environment
+backend/venv/
+
+# Build output directories
+frontend/dist/
+frontend/build/
+
+# Generated files
+*.log
+*.tmp
+*.lock
+
+# System files
+.DS_Store
+Thumbs.db
+
+# TypeScript build outputs
+frontend/*.tsbuildinfo
+
+# Environment files
+*.env
+*.env.local
+
+# IDE and editor settings
+.vscode/
+.idea/
+*.swp
+
+# Temporary/backup files
+*.bak
+*.orig
+
+# Test and coverage results
+coverage/
+frontend/coverage/
+
+npm-debug.log*
