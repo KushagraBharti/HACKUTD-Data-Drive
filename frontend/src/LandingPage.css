@@ -2,7 +2,10 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
+  justify-content: center;
+  text-align: center;
+  padding: 20px;
+  font-family: Arial, sans-serif;
   min-height: 100vh;
   background-color: #1a1a1a;
   color: #ffffff;
@@ -10,7 +13,7 @@
 }
 
 .landing-header {
-  margin-bottom: 60px;
+  margin-bottom: 40px;
   padding-top: 40px;
   width: 100%;
   display: flex;
@@ -26,7 +29,26 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   margin-bottom: 16px;
-  text-align: center;
+  animation: typing 2s steps(10, end) forwards, blink 0.75s step-end infinite;
+  white-space: nowrap;
+  overflow: hidden;
+  border-right: 3px solid; /* Cursor effect */
+  width: 0;
+}
+
+@keyframes typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes blink {
+  50% {
+    border-color: transparent;
+  }
 }
 
 .landing-header p {
@@ -132,17 +154,18 @@
   .landing-header h1 {
     font-size: 2.5em;
   }
-  
+
   .feature-card {
     padding: 32px;
   }
-  
+
   .nav-button {
     padding: 10px 20px;
     font-size: 0.9em;
   }
-  
+
   .landing-navigation {
     padding: 15px 10px;
   }
 }
+

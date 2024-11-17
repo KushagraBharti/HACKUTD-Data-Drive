@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_file
 from flask_cors import CORS
 from routes.data_routes import data_routes
 from routes.pinata_routes import pinata_routes
@@ -10,6 +10,7 @@ import atexit
 import numpy as np
 from joblib import load
 from services.cluster_service import predict_cluster, generate_cluster_insights
+from routes.explanation_routes import explanation_routes
 
 # Load environment variables
 load_environment_variables()
@@ -23,6 +24,7 @@ CORS(app)
 # Register blueprints (i.e., routes)
 app.register_blueprint(data_routes)
 app.register_blueprint(pinata_routes)
+app.register_blueprint(explanation_routes)
 
 # Background Scheduler
 scheduler = BackgroundScheduler()
@@ -84,6 +86,13 @@ def predict_cluster_endpoint():
         # Log any errors
         print("Error in /predict-cluster:", str(e))
         return jsonify({"error": str(e)}), 500
+    
+@app.route('/shap-summary', methods=['GET'])
+def get_shap_summary():
+    try:
+        return send_file('./visualizations/shap_summary_plot.png', mimetype='image/png')
+    except Exception as e:
+        return {'error': str(e)}
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -1,5 +1,6 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import './LandingPage.css';
+import carImage from './white_car_processed.jpg';
 
 const LandingPage = () => {
   const sectionRefs = {
@@ -14,11 +15,31 @@ const LandingPage = () => {
     ref.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
+  useEffect(() => {
+    const handleScroll = () => {
+      const car = document.querySelector('.car-animation') as HTMLElement;
+      if (car) {
+        const scrollTop = window.scrollY;
+        const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+        const scrollFraction = scrollTop / maxScroll;
+        const maxTranslateX = window.innerWidth;
+        const translateX = scrollFraction * maxTranslateX;
+        car.style.transform = `translateX(-${translateX}px)`;
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
   return (
     <div className="landing-page-container">
       <header className="landing-header">
-        <h1>DataDrive</h1>
-        <p>Optimize fuel efficiency, reduce emissions, and gain insights with our AI-powered dashboard.</p>
+        <h1 className="typing-animation">DataDrive.</h1>
+        <p><em>Optimize fuel efficiency, reduce emissions, and gain insights with our AI-powered dashboard.</em></p>
+        <img src={carImage} alt="Car" className="car-animation" />
       </header>
 
       <nav className="landing-navigation">
