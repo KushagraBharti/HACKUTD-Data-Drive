@@ -5,17 +5,22 @@ import ClusterInsights from "./components/ClusterInsights";
 import FuelEfficiencyChart from "./components/FuelEfficiencyChart";
 import CarDashboard from "./components/CarDashboard";
 import ClusterGraph from "./components/ClusterGraph";
+import CarCanvas from "./components/CarModel";
 
 type SectionKeys = "dataObservability" | "fuelEconomy" | "carbonFootprint" | "predictiveAlerts" | "clusterInsights";
 
 const LandingPage: React.FC = () => {
-  const sectionRefs: Record<SectionKeys, React.RefObject<HTMLDivElement>> = {
-    dataObservability: useRef<HTMLDivElement>(null),
-    fuelEconomy: useRef<HTMLDivElement>(null),
-    carbonFootprint: useRef<HTMLDivElement>(null),
-    predictiveAlerts: useRef<HTMLDivElement>(null),
-    clusterInsights: useRef<HTMLDivElement>(null),
-  };
+  type SectionKeys =
+  | "dataObservability"
+  | "fuelEconomy"
+  | "clusterInsights"
+
+const sectionRefs: Record<SectionKeys, React.RefObject<HTMLDivElement>> = {
+  dataObservability: useRef<HTMLDivElement>(null),
+  fuelEconomy: useRef<HTMLDivElement>(null),
+  clusterInsights: useRef<HTMLDivElement>(null)
+};
+
 
   const scrollToSection = (key: SectionKeys) => {
     sectionRefs[key]?.current?.scrollIntoView({ behavior: "smooth" });
@@ -54,7 +59,7 @@ const LandingPage: React.FC = () => {
             our AI-powered dashboard.
           </em>
         </p>
-        <img src={carImage} alt="Car" className="car-animation" />
+        <CarCanvas />
       </header>
 
       {/* Navigation Buttons */}
@@ -74,13 +79,13 @@ const LandingPage: React.FC = () => {
       <div className="features-section">
         
         {/* Carbon Footprint Placeholder */}
-        <div ref={sectionRefs.carbonFootprint} className="feature-card">
+        <div className="feature-card">
           <h3>CARS BY CLUSTER</h3>
           <ClusterGraph />
         </div>
         
         {/* Car Dashboard */}
-        <div ref={sectionRefs.carbonFootprint} className="feature-card">
+        <div className="feature-card">
           <h3>CAR DASHBOARD</h3>
           <CarDashboard setSharedInputs={setSharedInputs} />
         </div>
@@ -97,11 +102,6 @@ const LandingPage: React.FC = () => {
           <ClusterInsights autoInputs={sharedInputs} />
         </div>
 
-        {/* Predictive Alerts Placeholder */}
-        <div ref={sectionRefs.predictiveAlerts} className="feature-card">
-          <h3>PREDICTIVE ALERTS</h3>
-          <p>Content for predictive alerts goes here.</p>
-        </div>
       </div>
     </div>
   );

@@ -73,10 +73,17 @@ body {
   
   /* Navigation Buttons */
   .landing-navigation {
+    position: sticky;
+    top: 0;
+    background-color: dark-gray; /* Subtle dark gray for navbar */
+    padding: 8px 0;
+    width: 100%;
+    border-radius: 10px;
     display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
-    margin-bottom: 20px;
+    justify-content: center;
+    gap: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    z-index: 2;
   }
   
   .nav-button {

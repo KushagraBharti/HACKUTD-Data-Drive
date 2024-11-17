@@ -54,7 +54,6 @@ const CarDashboard: React.FC<CarDashboardProps> = ({ setSharedInputs }) => {
 
   return (
     <div className="p-6 bg-gray-800 rounded-lg shadow-lg">
-      <h2 className="text-2xl font-bold mb-4 text-center text-white">Car Dashboard</h2>
 
       <div className="mb-4">
         <label htmlFor="car-select" className="block mb-2 text-sm font-medium text-gray-400">

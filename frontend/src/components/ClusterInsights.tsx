@@ -98,7 +98,6 @@ const ClusterInsights: React.FC<{ autoInputs?: any }> = ({ autoInputs }) => {
 
   return (
     <div className="p-6 bg-gray-800 rounded-lg shadow-lg">
-      <h2 className="text-2xl font-bold mb-4 text-center text-white">Cluster Insights</h2>
       <div className="space-y-4">
         {Object.keys(inputData).map((key) => (
           <div key={key}>
@@ -131,7 +130,7 @@ const ClusterInsights: React.FC<{ autoInputs?: any }> = ({ autoInputs }) => {
 
       {explanation && (
         <div className="mt-4 text-center text-blue-400">
-          <h4>GPT Insights:</h4>
+          <h4>Professional Insights:</h4>
           <p>{explanation}</p>
         </div>
       )}
