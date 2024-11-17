@@ -4,19 +4,20 @@ import LandingPage from './LandingPage';
 import FuelEfficiencyPrediction from './components/FuelEfficiencyPrediction';
 import ClusterInsights from './components/ClusterInsights';
 
+// App component
 const App: React.FC = () => {
   return (
     <Router>
-      <div className="min-h-screen w-full bg-[#1a1a1a]">
+      <div className="app">
         <Routes>
           <Route path="/" element={<LandingPage />} />
         </Routes>
-        
-        {/* Components container */}
-        <div className="space-y-8 p-6 max-w-7xl mx-auto">
+        <div className="app min-h-screen bg-gray-100 flex items-center justify-center">
           <FuelEfficiencyPrediction />
+        <div className="app min-h-screen bg-gray-100 flex items-center justify-center">
           <ClusterInsights />
-        </div>
+      </div>
+      </div>
       </div>
     </Router>
   );
