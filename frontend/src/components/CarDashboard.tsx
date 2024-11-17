@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-const CarDashboard: React.FC = () => {
+interface CarDashboardProps {
+  setSharedInputs: (inputs: any) => void;
+}
+
+const CarDashboard: React.FC<CarDashboardProps> = ({ setSharedInputs }) => {
   const [cars, setCars] = useState<{ model_year: number; model: string }[]>([]);
   const [selectedCar, setSelectedCar] = useState<string>("");
   const [carDetails, setCarDetails] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
 
-  // Fetch car list on component mount
   useEffect(() => {
     const fetchCars = async () => {
       try {
@@ -28,8 +31,21 @@ const CarDashboard: React.FC = () => {
     setError(null);
 
     try {
-      const response = await axios.get(`http://127.0.0.1:5000/car-details?name=${encodeURIComponent(carName)}`);
+      const response = await axios.get(
+        `http://127.0.0.1:5000/car-details?name=${encodeURIComponent(carName)}`
+      );
       setCarDetails(response.data);
+
+      // Automatically update shared inputs
+      setSharedInputs({
+        engineDisplacement: response.data.engine_displacement,
+        cylinders: response.data.cylinders,
+        cityFuelEfficiency: response.data.city_fuel_efficiency,
+        highwayFuelEfficiency: response.data.highway_fuel_efficiency,
+        co2: response.data.co2_emissions,
+        annualFuelCost: response.data.annual_fuel_cost,
+        combinedFuelEfficiency: response.data.combined_fuel_efficiency,
+      });
     } catch (err) {
       console.error("Error fetching car details:", err);
       setError("Failed to fetch car details. Please try again.");

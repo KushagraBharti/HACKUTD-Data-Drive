@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Button from './ui/Button';
 
@@ -18,13 +18,24 @@ interface ClusterResponse {
   };
 }
 
-const ClusterInsights: React.FC = () => {
+const ClusterInsights: React.FC<{ autoInputs?: any }> = ({ autoInputs }) => {
   const [inputData, setInputData] = useState<InputData>({
-    'City FE (Guide) - Conventional Fuel': '',
-    'Hwy FE (Guide) - Conventional Fuel': '',
-    'Comb FE (Guide) - Conventional Fuel': '',
-    'Annual Fuel1 Cost - Conventional Fuel': '',
+    "City FE (Guide) - Conventional Fuel": "",
+    "Hwy FE (Guide) - Conventional Fuel": "",
+    "Comb FE (Guide) - Conventional Fuel": "",
+    "Annual Fuel1 Cost - Conventional Fuel": "",
   });
+
+  useEffect(() => {
+    if (autoInputs) {
+      setInputData({
+        "City FE (Guide) - Conventional Fuel": autoInputs.cityFuelEfficiency || "",
+        "Hwy FE (Guide) - Conventional Fuel": autoInputs.highwayFuelEfficiency || "",
+        "Comb FE (Guide) - Conventional Fuel": autoInputs.combinedFuelEfficiency || "",
+        "Annual Fuel1 Cost - Conventional Fuel": autoInputs.annualFuelCost || "",
+      });
+    }
+  }, [autoInputs]);
 
   const [clusterResult, setClusterResult] = useState<ClusterResponse | null>(null);
   const [explanation, setExplanation] = useState<string | null>(null);

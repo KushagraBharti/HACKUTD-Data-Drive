@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import * as d3 from "d3";
 
-const FuelEfficiencyChart: React.FC = () => {
+const FuelEfficiencyChart: React.FC<{ autoInputs?: any }> = ({ autoInputs }) => {
   const [engineDisplacement, setEngineDisplacement] = useState<number>(3.5);
   const [cylinders, setCylinders] = useState<number>(6);
   const [cityFE, setCityFE] = useState<number>(20);
@@ -11,6 +11,16 @@ const FuelEfficiencyChart: React.FC = () => {
   const [chartData, setChartData] = useState<
     { input: string; efficiency: number }[]
   >([]);
+
+  useEffect(() => {
+    if (autoInputs) {
+      setEngineDisplacement(autoInputs.engineDisplacement || 3.5);
+      setCylinders(autoInputs.cylinders || 6);
+      setCityFE(autoInputs.cityFuelEfficiency || 20);
+      setHighwayFE(autoInputs.highwayFuelEfficiency || 28);
+      setCo2(autoInputs.co2 || 300);
+    }
+  }, [autoInputs]);
 
   const handleSubmit = async () => {
     try {

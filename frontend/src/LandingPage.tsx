@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./styles.css";
 import carImage from "./white_car_processed.jpg";
 import ClusterInsights from "./components/ClusterInsights";
@@ -19,6 +19,9 @@ const LandingPage: React.FC = () => {
   const scrollToSection = (key: SectionKeys) => {
     sectionRefs[key]?.current?.scrollIntoView({ behavior: "smooth" });
   };
+
+  // Shared state for automatic inputs
+  const [sharedInputs, setSharedInputs] = useState<any>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -66,25 +69,24 @@ const LandingPage: React.FC = () => {
         ))}
       </nav>
 
-      {/* Carbon Footprint Section */}
-        <div ref={sectionRefs.carbonFootprint} className="feature-card">
-          <h3>CAR DASHBOARD</h3>
-          <CarDashboard />
-        </div>
-
-
       {/* Flashcards Section */}
       <div className="features-section">
-        {/* Data Observability Section */}
-        <div ref={sectionRefs.dataObservability} className="feature-card">
+        {/* Car Dashboard */}
+        <div ref={sectionRefs.carbonFootprint} className="feature-card">
+          <h3>CAR DASHBOARD</h3>
+          <CarDashboard setSharedInputs={setSharedInputs} />
+        </div>
+
+        {/* Fuel Economy Section */}
+        <div ref={sectionRefs.fuelEconomy} className="feature-card">
           <h3>FUEL ECONOMY</h3>
-          <FuelEfficiencyChart />
+          <FuelEfficiencyChart autoInputs={sharedInputs} />
         </div>
 
         {/* Cluster Insights Section */}
         <div ref={sectionRefs.clusterInsights} className="feature-card">
           <h3>CLUSTER INSIGHTS</h3>
-          <ClusterInsights />
+          <ClusterInsights autoInputs={sharedInputs} />
         </div>
 
         {/* Carbon Footprint Placeholder */}
@@ -98,7 +100,6 @@ const LandingPage: React.FC = () => {
           <h3>PREDICTIVE ALERTS</h3>
           <p>Content for predictive alerts goes here.</p>
         </div>
-
       </div>
     </div>
   );
