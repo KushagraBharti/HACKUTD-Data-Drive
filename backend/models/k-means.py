@@ -2,15 +2,22 @@ import pandas as pd
 from sklearn.cluster import KMeans
 from sklearn.preprocessing import StandardScaler
 import matplotlib.pyplot as plt
+import joblib
+
 
 # Load the dataset
-df = pd.read_excel('backend/data/all_toyota_data.xlsx')
+df = pd.read_csv('backend/data/all_toyota_data.csv')
 
 # Select relevant features
 features = df[['City FE (Guide) - Conventional Fuel', 
                'Hwy FE (Guide) - Conventional Fuel', 
                'Comb FE (Guide) - Conventional Fuel', 
+               #'Comb CO2 Rounded Adjusted - Fuel2',
                'Annual Fuel1 Cost - Conventional Fuel']]
+
+# Handle missing values
+features = features.dropna()
+
 
 # Handle missing values
 features = features.dropna()
