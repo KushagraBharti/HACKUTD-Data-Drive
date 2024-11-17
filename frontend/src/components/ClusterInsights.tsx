@@ -27,6 +27,7 @@ const ClusterInsights: React.FC = () => {
   });
 
   const [clusterResult, setClusterResult] = useState<ClusterResponse | null>(null);
+  const [explanation, setExplanation] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -42,6 +43,7 @@ const ClusterInsights: React.FC = () => {
     setIsLoading(true);
     setError(null);
     setClusterResult(null);
+    setExplanation(null);
 
     try {
       const processedInputData = Object.fromEntries(
@@ -52,21 +54,41 @@ const ClusterInsights: React.FC = () => {
         'http://127.0.0.1:5000/predict-cluster',
         processedInputData,
         {
-          headers: {
-            'Content-Type': 'application/json',
-          },
+          headers: { 'Content-Type': 'application/json' },
         }
       );
 
-      if (response.data.cluster_id !== undefined) {
+      if (response.data) {
         setClusterResult(response.data);
+        handleExplainCluster(response.data); // Trigger explanation
       } else {
-        throw new Error('Invalid response from server');
+        throw new Error("No data received from server");
       }
     } catch (err: any) {
-      setError(err.response ? err.response.data.error : 'An unexpected error occurred');
+      setError(err.response?.data?.error || 'An error occurred while predicting the cluster.');
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const handleExplainCluster = async (clusterData: ClusterResponse) => {
+    try {
+      const response = await axios.post<{ explanation: string }>(
+        'http://127.0.0.1:5000/explain',
+        {
+          model_name: 'Clustering Model',
+          input_data: inputData,
+          result: clusterData,
+        },
+        {
+          headers: { 'Content-Type': 'application/json' },
+        }
+      );
+
+      setExplanation(response.data.explanation);
+    } catch (err) {
+      console.error("Explanation error:", err);
+      setExplanation("Failed to fetch explanation. Please try again.");
     }
   };
 
@@ -101,12 +123,17 @@ const ClusterInsights: React.FC = () => {
           <p>{clusterResult.insights.description}</p>
           <p>Average Combined FE: {clusterResult.insights.average_comb_fe}</p>
           <p>Recommendation: {clusterResult.insights.recommendation}</p>
+          {explanation && (
+            <div className="explanation mt-4 text-blue-400">
+              <p>Explanation: {explanation}</p>
+            </div>
+          )}
         </div>
       )}
 
       {error && (
         <div className="error mt-4 text-center text-red-500">
-          <p>Error: {error}</p>
+          <p>{error}</p>
         </div>
       )}
     </div>
