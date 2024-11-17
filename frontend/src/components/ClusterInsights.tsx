@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import Button from './ui/Button';
+import React, { useState } from "react";
+import axios from "axios";
+import Button from "./ui/Button";
 
 interface InputData {
-  'City FE (Guide) - Conventional Fuel': number | string;
-  'Hwy FE (Guide) - Conventional Fuel': number | string;
-  'Comb FE (Guide) - Conventional Fuel': number | string;
-  'Annual Fuel1 Cost - Conventional Fuel': number | string;
+  "City FE (Guide) - Conventional Fuel": number | string;
+  "Hwy FE (Guide) - Conventional Fuel": number | string;
+  "Comb FE (Guide) - Conventional Fuel": number | string;
+  "Annual Fuel1 Cost - Conventional Fuel": number | string;
 }
 
 interface ClusterResponse {
@@ -20,13 +20,14 @@ interface ClusterResponse {
 
 const ClusterInsights: React.FC = () => {
   const [inputData, setInputData] = useState<InputData>({
-    'City FE (Guide) - Conventional Fuel': '',
-    'Hwy FE (Guide) - Conventional Fuel': '',
-    'Comb FE (Guide) - Conventional Fuel': '',
-    'Annual Fuel1 Cost - Conventional Fuel': '',
+    "City FE (Guide) - Conventional Fuel": "",
+    "Hwy FE (Guide) - Conventional Fuel": "",
+    "Comb FE (Guide) - Conventional Fuel": "",
+    "Annual Fuel1 Cost - Conventional Fuel": "",
   });
 
   const [clusterResult, setClusterResult] = useState<ClusterResponse | null>(null);
+  const [gptInsight, setGptInsight] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -39,6 +40,11 @@ const ClusterInsights: React.FC = () => {
   };
 
   const handlePredictCluster = async () => {
+    if (Object.values(inputData).some((val) => val === "")) {
+      setError("Please fill in all fields.");
+      return;
+    }
+
     setIsLoading(true);
     setError(null);
     setClusterResult(null);
@@ -49,66 +55,75 @@ const ClusterInsights: React.FC = () => {
       );
 
       const response = await axios.post<ClusterResponse>(
-        'http://127.0.0.1:5000/predict-cluster',
+        "http://127.0.0.1:5000/predict-cluster",
         processedInputData,
         {
-          headers: {
-            'Content-Type': 'application/json',
-          },
+          headers: { "Content-Type": "application/json" },
         }
       );
 
-      if (response.data.cluster_id !== undefined) {
-        setClusterResult(response.data);
-      } else {
-        throw new Error('Invalid response from server');
-      }
+      setClusterResult(response.data);
+      handleGptInsight(response.data.insights.description);
     } catch (err: any) {
-      setError(err.response ? err.response.data.error : 'An unexpected error occurred');
+      setError(err.response?.data?.error || "An error occurred while predicting the cluster.");
     } finally {
       setIsLoading(false);
     }
   };
 
+  const handleGptInsight = async (insightDescription: string) => {
+    try {
+      const response = await axios.post<{ gpt_response: string }>(
+        "http://127.0.0.1:5000/generate-insight",
+        { prompt: insightDescription },
+        {
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+      setGptInsight(response.data.gpt_response);
+    } catch (err) {
+      setGptInsight("Failed to fetch GPT-generated insights.");
+    }
+  };
+
   return (
-    <div className="cluster-insights max-w-lg mx-auto p-6 bg-gray-800 rounded-lg shadow-md">
+    <div className="p-6 bg-gray-800 rounded-lg shadow-lg">
       <h2 className="text-2xl font-bold mb-4 text-center text-white">Cluster Insights</h2>
-      <div className="input-form space-y-4">
+      <div className="space-y-4">
         {Object.keys(inputData).map((key) => (
           <div key={key}>
-            <label className="block mb-2 text-sm font-medium text-gray-400">{key}: </label>
+            <label className="block mb-2 text-sm font-medium text-gray-400">{key}:</label>
             <input
               type="number"
               name={key}
               value={(inputData as any)[key]}
               onChange={handleInputChange}
-              className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+              className="w-full p-2 bg-gray-700 border border-gray-600 rounded focus:ring-2 focus:ring-blue-500"
             />
           </div>
         ))}
-        <Button label={isLoading ? 'Loading...' : 'Predict Cluster'} onClick={handlePredictCluster} />
+        <Button label={isLoading ? "Loading..." : "Predict Cluster"} onClick={handlePredictCluster} />
       </div>
 
-      {isLoading && (
-        <div className="loading mt-6 text-center text-yellow-400 font-bold">
-          <h3>Loading, please wait...</h3>
-        </div>
-      )}
+      {isLoading && <p className="mt-4 text-center text-yellow-400">Loading...</p>}
 
-      {clusterResult && !isLoading && (
-        <div className="result mt-6 text-center text-green-400 font-bold">
-          <h3>Cluster: {clusterResult.cluster_id}</h3>
+      {clusterResult && (
+        <div className="mt-4 text-center text-green-400">
+          <h3>Cluster ID: {clusterResult.cluster_id}</h3>
           <p>{clusterResult.insights.description}</p>
-          <p>Average Combined FE: {clusterResult.insights.average_comb_fe}</p>
+          <p>Average FE: {clusterResult.insights.average_comb_fe}</p>
           <p>Recommendation: {clusterResult.insights.recommendation}</p>
         </div>
       )}
 
-      {error && (
-        <div className="error mt-4 text-center text-red-500">
-          <p>Error: {error}</p>
+      {gptInsight && (
+        <div className="mt-4 text-center text-blue-400">
+          <h4>GPT Insights:</h4>
+          <p>{gptInsight}</p>
         </div>
       )}
+
+      {error && <p className="mt-4 text-center text-red-500">{error}</p>}
     </div>
   );
 };

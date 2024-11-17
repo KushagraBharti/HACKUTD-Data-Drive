@@ -7,6 +7,9 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from services.predictive_alerts import periodic_anomaly_check
 import atexit
 import numpy as np
+from joblib import load
+from services.cluster_service import predict_cluster, generate_cluster_insights
+from routes.explanation_routes import explanation_routes
 import pandas as pd
 from joblib import load, dump
 from pathlib import Path  # Import pathlib for path handling
@@ -36,6 +39,7 @@ CORS(app)
 # Register blueprints (i.e., routes)
 app.register_blueprint(data_routes)
 app.register_blueprint(pinata_routes)
+app.register_blueprint(explanation_routes)
 
 # Background Scheduler
 scheduler = BackgroundScheduler()

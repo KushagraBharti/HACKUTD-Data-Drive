@@ -3,6 +3,7 @@ import axios from 'axios';
 
 const ShapSummaryPlot: React.FC = () => {
   const [imgSrc, setImgSrc] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchSummaryPlot = async () => {
@@ -10,10 +11,9 @@ const ShapSummaryPlot: React.FC = () => {
         const response = await axios.get('http://127.0.0.1:5000/shap-summary', {
           responseType: 'blob',
         });
-        const imageUrl = URL.createObjectURL(response.data);
-        setImgSrc(imageUrl);
+        setImgSrc(URL.createObjectURL(response.data));
       } catch (err) {
-        console.error('Error fetching SHAP summary plot:', err);
+        setError('Failed to load SHAP summary plot.');
       }
     };
 
@@ -21,12 +21,12 @@ const ShapSummaryPlot: React.FC = () => {
   }, []);
 
   return (
-    <div className="shap-summary-container max-w-lg mx-auto p-6 bg-gray-800 rounded-lg shadow-md">
+    <div className="shap-summary-container max-w-lg mx-auto p-6 bg-gray-800 rounded-lg shadow-lg">
       <h2 className="text-2xl font-bold mb-4 text-center text-white">SHAP Summary Plot</h2>
       {imgSrc ? (
-        <img src={imgSrc} alt="SHAP Summary Plot" className="w-full h-auto" />
+        <img src={imgSrc} alt="SHAP Plot" className="rounded-lg shadow" />
       ) : (
-        <p className="text-center text-yellow-400">Loading SHAP Summary Plot...</p>
+        <p className="text-center text-yellow-400">{error || 'Loading...'}</p>
       )}
     </div>
   );
