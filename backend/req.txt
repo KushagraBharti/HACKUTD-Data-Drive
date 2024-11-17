@@ -1,0 +1,16 @@
+Flask
+Flask-Cors
+Flask-Migrate
+Flask-RESTful
+
+joblib
+
+numpy
+
+pandas
+
+python-dateutil
+python-dotenv
+
+scikit-learn
+scipy
