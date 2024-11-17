@@ -4,7 +4,10 @@ Flask-Migrate
 Flask-RESTful
 
 joblib
-
+requests
+apscheduler
+matplotlib
+openai
 numpy
 
 pandas
