@@ -4,7 +4,11 @@ import carImage from "./white_car_processed.jpg";
 import ClusterInsights from "./components/ClusterInsights";
 import FuelEfficiencyChart from "./components/FuelEfficiencyChart";
 import CarDashboard from "./components/CarDashboard";
+
 import CarCanvas from "./components/CarModel";
+
+import ClusterGraph from "./components/ClusterGraph";
+
 
 type SectionKeys = "dataObservability" | "fuelEconomy" | "clusterInsights";
 
@@ -98,6 +102,13 @@ const LandingPage: React.FC = () => {
 
       {/* Flashcards Section */}
       <div className="features-section">
+
+        {/* Cluster Graph */}
+        <div ref={sectionRefs.dataObservability} className="feature-card fade-in">
+          <h3>CARS BY CLUSTER</h3>
+          <ClusterGraph />
+        </div>
+
         {/* Car Dashboard */}
         <div ref={sectionRefs.dataObservability} className="feature-card fade-in">
           <h3>CAR DASHBOARD</h3>

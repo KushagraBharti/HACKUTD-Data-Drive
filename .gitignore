@@ -6,6 +6,9 @@ backend/venv/
 backend/services/_pycache_/
 backend/routes/_pycache_/
 backend/utils/_pycache_/
+backend\services\__pycache__
+backend\routes\__pycache__
+backend\utils\__pycache__
 
 # Build output directories
 frontend/dist/
