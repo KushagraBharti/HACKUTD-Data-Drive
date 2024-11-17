@@ -1,5 +1,6 @@
 import joblib
 import numpy as np
+import pandas as pd
 
 # Load saved models
 scaler = joblib.load('../backend/models/scaler.joblib')
@@ -7,11 +8,17 @@ kmeans = joblib.load('../backend/models/kmeans_model.joblib')
 
 def predict_cluster(input_data):
     try:
-        # Convert input data to a numpy array
-        data_array = np.array(list(input_data.values())).reshape(1, -1)
+        # Convert input data to a DataFrame with appropriate column names
+        feature_names = [
+            'City FE (Guide) - Conventional Fuel',
+            'Hwy FE (Guide) - Conventional Fuel',
+            'Comb FE (Guide) - Conventional Fuel',
+            'Annual Fuel1 Cost - Conventional Fuel'
+        ]
+        data_df = pd.DataFrame([input_data], columns=feature_names)
 
         # Scale the input data
-        scaled_data = scaler.transform(data_array)
+        scaled_data = scaler.transform(data_df)
 
         # Predict the cluster
         cluster_id = int(kmeans.predict(scaled_data)[0])
