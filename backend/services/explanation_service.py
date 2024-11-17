@@ -8,8 +8,6 @@ load_dotenv()
 # Initialize OpenAI client
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-print(os.getenv("OPENAI_API_KEY"))
-
 def explain_result(model_name, input_data, result):
     """
     Use GPT to generate a human-friendly explanation for the results.

@@ -1,18 +1,15 @@
-from flask import Flask, request, jsonify, send_file
+from flask import Flask, request, jsonify
 from flask_cors import CORS
 from routes.data_routes import data_routes
 from routes.pinata_routes import pinata_routes
+from routes.explanation_routes import explanation_routes
 from utils.load_env import load_environment_variables
 from apscheduler.schedulers.background import BackgroundScheduler
 from services.predictive_alerts import periodic_anomaly_check
 import atexit
-import numpy as np
-from joblib import load
-from services.cluster_service import predict_cluster, generate_cluster_insights
-from routes.explanation_routes import explanation_routes
 import pandas as pd
-from joblib import load, dump
-from pathlib import Path  # Import pathlib for path handling
+from joblib import load
+from pathlib import Path
 
 # Load environment variables
 load_environment_variables()
@@ -20,15 +17,14 @@ load_environment_variables()
 # Define the base directory
 BASE_DIR = Path(__file__).resolve().parent
 
-# Define paths to the model files using pathlib
+# Define paths to the model files and data
 MODELS_DIR = BASE_DIR / 'models'
-VISUALIZATIONS_DIR = BASE_DIR / 'visualizations'
-DATA_FILE_PATH = BASE_DIR / 'data' / 'all_toyota_data.xlsx'
-
-# Paths to specific models
+DATA_FILE_PATH = BASE_DIR / 'data' / 'parsed_toyota_data.csv'  # Updated path for parsed CSV file
 KMEANS_MODEL_PATH = MODELS_DIR / 'kmeans_model.joblib'
 SCALER_PATH = MODELS_DIR / 'scaler.pkl'
 MODEL_FILE_PATH = MODELS_DIR / 'fuel_economy_model.pkl'
+
+CLEANED_CAR_DATA_PATH = BASE_DIR / 'data' / 'cleaned_car_data.csv' 
 
 # Initialize the Flask app
 app = Flask(__name__)
@@ -61,6 +57,7 @@ except FileNotFoundError as e:
     print(f"Model loading error: {str(e)}")
     scaler = None
     model = None
+
 
 # API Endpoint to Predict Fuel Efficiency
 @app.route('/predict-fuel-efficiency', methods=['POST'])
@@ -98,7 +95,40 @@ def predict_fuel_efficiency_endpoint():
     
     except Exception as e:
         print("Error occurred:", str(e))
-        return jsonify({'error': str(e)})
+        return jsonify({'error': str(e)}), 500
+
+
+# Endpoint to fetch all cars
+@app.route('/cars', methods=['GET'])
+def get_cars():
+    try:
+        car_data = pd.read_csv(CLEANED_CAR_DATA_PATH)
+        cars = car_data[['model_year', 'model']].to_dict(orient='records')
+        print("Cars fetched successfully:", cars)  # Debug statement
+        return jsonify({"cars": cars}), 200
+    except Exception as e:
+        print("Error fetching cars:", e)  # Debug error
+        return jsonify({"error": str(e)}), 500
+
+# Endpoint to fetch details for a specific car
+@app.route('/car-details', methods=['GET'])
+def get_car_details():
+    try:
+        car_name = request.args.get('name')
+        if not car_name:
+            return jsonify({"error": "Car name is required"}), 400
+        
+        # Load cleaned car data
+        car_data = pd.read_csv(CLEANED_CAR_DATA_PATH)
+        # Search for the car details
+        car_details = car_data.loc[car_data['model'] == car_name].to_dict(orient='records')
+        if not car_details:
+            return jsonify({"error": "Car not found"}), 404
+        
+        return jsonify(car_details[0]), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
 
 if __name__ == '__main__':
     app.run(debug=True)

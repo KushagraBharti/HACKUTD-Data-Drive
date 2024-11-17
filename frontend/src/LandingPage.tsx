@@ -3,6 +3,7 @@ import "./styles.css";
 import carImage from "./white_car_processed.jpg";
 import ClusterInsights from "./components/ClusterInsights";
 import FuelEfficiencyChart from "./components/FuelEfficiencyChart";
+import CarDashboard from "./components/CarDashboard";
 
 type SectionKeys = "dataObservability" | "fuelEconomy" | "carbonFootprint" | "predictiveAlerts" | "clusterInsights";
 
@@ -64,6 +65,13 @@ const LandingPage: React.FC = () => {
           </button>
         ))}
       </nav>
+
+      {/* Carbon Footprint Section */}
+        <div ref={sectionRefs.carbonFootprint} className="feature-card">
+          <h3>CAR DASHBOARD</h3>
+          <CarDashboard />
+        </div>
+
 
       {/* Flashcards Section */}
       <div className="features-section">
