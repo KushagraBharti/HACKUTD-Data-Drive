@@ -2,7 +2,6 @@ import React, { useEffect, useRef } from "react";
 import "./styles.css";
 import carImage from "./white_car_processed.jpg";
 import ClusterInsights from "./components/ClusterInsights";
-import FuelEfficiencyPrediction from "./components/FuelEfficiencyPrediction";
 import FuelEfficiencyChart from "./components/FuelEfficiencyChart";
 
 type SectionKeys = "dataObservability" | "fuelEconomy" | "carbonFootprint" | "predictiveAlerts" | "clusterInsights";
