@@ -101,7 +101,7 @@ const LandingPage: React.FC = () => {
 
         {/* Cluster Graph */}
         <div ref={sectionRefs.dataObservability} className="feature-card fade-in">
-          <h3>CAR DASHBOARD</h3>
+          <h3>CARS BY CLUSTER</h3>
           <ClusterGraph />
         </div>
 
