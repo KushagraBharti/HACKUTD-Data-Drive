@@ -27,7 +27,7 @@ for file_path in input_files:
 combined_toyota_data = pd.concat(all_toyota_data, ignore_index=True)
 
 # Output the combined data to a single Excel file
-output_file_path = 'C:/Users/kusha/OneDrive/Documents/CS Projects/fun scripts/HACKUTD-Data-Drive/backend/data/all_toyota_data.xlsx'
+output_file_path = 'backend/data/all_toyota_data.xlsx'
 combined_toyota_data.to_excel(output_file_path, index=False)
 
 print(f"Filtered data from all files saved to {output_file_path}")
