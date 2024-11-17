@@ -70,14 +70,8 @@ const LandingPage: React.FC = () => {
       <div className="features-section">
         {/* Data Observability Section */}
         <div ref={sectionRefs.dataObservability} className="feature-card">
-          <h3>DATA OBSERVABILITY</h3>
-          <FuelEfficiencyChart />
-        </div>
-
-        {/* Fuel Economy Section */}
-        <div ref={sectionRefs.fuelEconomy} className="feature-card">
           <h3>FUEL ECONOMY</h3>
-          <FuelEfficiencyPrediction />
+          <FuelEfficiencyChart />
         </div>
 
         {/* Cluster Insights Section */}

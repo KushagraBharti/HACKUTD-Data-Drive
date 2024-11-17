@@ -1,12 +1,12 @@
-import React, { useState } from "react";
-import axios from "axios";
-import Button from "./ui/Button";
+import React, { useState } from 'react';
+import axios from 'axios';
+import Button from './ui/Button';
 
 interface InputData {
-  "City FE (Guide) - Conventional Fuel": number | string;
-  "Hwy FE (Guide) - Conventional Fuel": number | string;
-  "Comb FE (Guide) - Conventional Fuel": number | string;
-  "Annual Fuel1 Cost - Conventional Fuel": number | string;
+  'City FE (Guide) - Conventional Fuel': number | string;
+  'Hwy FE (Guide) - Conventional Fuel': number | string;
+  'Comb FE (Guide) - Conventional Fuel': number | string;
+  'Annual Fuel1 Cost - Conventional Fuel': number | string;
 }
 
 interface ClusterResponse {
@@ -20,14 +20,14 @@ interface ClusterResponse {
 
 const ClusterInsights: React.FC = () => {
   const [inputData, setInputData] = useState<InputData>({
-    "City FE (Guide) - Conventional Fuel": "",
-    "Hwy FE (Guide) - Conventional Fuel": "",
-    "Comb FE (Guide) - Conventional Fuel": "",
-    "Annual Fuel1 Cost - Conventional Fuel": "",
+    'City FE (Guide) - Conventional Fuel': '',
+    'Hwy FE (Guide) - Conventional Fuel': '',
+    'Comb FE (Guide) - Conventional Fuel': '',
+    'Annual Fuel1 Cost - Conventional Fuel': '',
   });
 
   const [clusterResult, setClusterResult] = useState<ClusterResponse | null>(null);
-  const [gptInsight, setGptInsight] = useState<string | null>(null);
+  const [explanation, setExplanation] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -40,49 +40,48 @@ const ClusterInsights: React.FC = () => {
   };
 
   const handlePredictCluster = async () => {
-    if (Object.values(inputData).some((val) => val === "")) {
-      setError("Please fill in all fields.");
+    if (Object.values(inputData).some((val) => val === '')) {
+      setError('Please fill in all fields.');
       return;
     }
 
     setIsLoading(true);
     setError(null);
     setClusterResult(null);
+    setExplanation(null);
 
     try {
-      const processedInputData = Object.fromEntries(
-        Object.entries(inputData).map(([key, value]) => [key, parseFloat(value as string)])
-      );
-
       const response = await axios.post<ClusterResponse>(
-        "http://127.0.0.1:5000/predict-cluster",
-        processedInputData,
-        {
-          headers: { "Content-Type": "application/json" },
-        }
+        'http://127.0.0.1:5000/predict-cluster',
+        inputData,
+        { headers: { 'Content-Type': 'application/json' } }
       );
 
       setClusterResult(response.data);
-      handleGptInsight(response.data.insights.description);
+      await fetchExplanation(response.data);
     } catch (err: any) {
-      setError(err.response?.data?.error || "An error occurred while predicting the cluster.");
+      setError(err.response?.data?.error || 'An error occurred while predicting the cluster.');
     } finally {
       setIsLoading(false);
     }
   };
 
-  const handleGptInsight = async (insightDescription: string) => {
+  const fetchExplanation = async (clusterData: ClusterResponse) => {
     try {
-      const response = await axios.post<{ gpt_response: string }>(
-        "http://127.0.0.1:5000/generate-insight",
-        { prompt: insightDescription },
+      const response = await axios.post<{ explanation: string }>(
+        'http://127.0.0.1:5000/explain',
         {
-          headers: { "Content-Type": "application/json" },
-        }
+          model_name: 'Clustering Model',
+          input_data: inputData,
+          result: clusterData,
+        },
+        { headers: { 'Content-Type': 'application/json' } }
       );
-      setGptInsight(response.data.gpt_response);
+
+      setExplanation(response.data.explanation);
     } catch (err) {
-      setGptInsight("Failed to fetch GPT-generated insights.");
+      console.error('Failed to fetch GPT explanation:', err);
+      setExplanation('Failed to fetch GPT-generated insights.');
     }
   };
 
@@ -102,7 +101,10 @@ const ClusterInsights: React.FC = () => {
             />
           </div>
         ))}
-        <Button label={isLoading ? "Loading..." : "Predict Cluster"} onClick={handlePredictCluster} />
+        <Button
+          label={isLoading ? 'Loading...' : 'Predict Cluster'}
+          onClick={handlePredictCluster}
+        />
       </div>
 
       {isLoading && <p className="mt-4 text-center text-yellow-400">Loading...</p>}
@@ -116,10 +118,10 @@ const ClusterInsights: React.FC = () => {
         </div>
       )}
 
-      {gptInsight && (
+      {explanation && (
         <div className="mt-4 text-center text-blue-400">
           <h4>GPT Insights:</h4>
-          <p>{gptInsight}</p>
+          <p>{explanation}</p>
         </div>
       )}
 
