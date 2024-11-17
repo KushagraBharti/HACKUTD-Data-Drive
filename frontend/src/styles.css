@@ -2,7 +2,7 @@
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background: linear-gradient(-45deg, #2c2c2c, #3a3a3a, #2b2b2b, #1f1f1f); /* Original dark gray gradient colors */
+  background: linear-gradient(-45deg, #0b0000, #0f0f0f, #060000, #1f1f1f); /* Original dark gray gradient colors */
   background-size: 400% 400%;
   animation: gradientBG 15s ease infinite; /* Infinite loop for background gradient animation */
   color: white;
@@ -47,7 +47,7 @@ body {
 .typing-animation {
   font-size: 10em;
   font-weight: bold;
-  background: linear-gradient(45deg, #60a5fa, #3b82f6);
+  background: linear-gradient(45deg, #0c4271, #0a81ab);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   white-space: nowrap;
@@ -77,14 +77,28 @@ body {
 .landing-navigation {
   position: sticky;
   top: 0;
-  background-color: rgba(50, 50, 50, 0.9); /* Subtle dark gray for navbar */
+  background-color: rgba(9, 9, 9, 0.9); /* Subtle dark gray for navbar */
   padding: 8px 0;
   width: 100%;
+  border-radius: 10px;
   display: flex;
   justify-content: center;
   gap: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
   z-index: 2;
+}
+
+.car-container {
+  margin-top: 20px; /* Add some spacing from the tagline */
+  max-width: 800px; /* Limit the width to avoid taking up too much space */
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.landing-header {
+  text-align: center; /* Ensure the header is centered properly */
+  margin-bottom: 20px;
 }
 
 .nav-button {
@@ -117,7 +131,7 @@ body {
 .feature-card {
   padding: 18px;
   border-radius: 10px;
-  background: linear-gradient(145deg, #2c2c2c, #3a3a3a); /* Dark gray gradient for feature cards */
+  background: linear-gradient(145deg, #090000, #232222); /* Dark gray gradient for feature cards */
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
   text-align: center;
   width: 100%;
