@@ -3,7 +3,7 @@ import "./styles.css";
 import carImage from "./white_car_processed.jpg";
 import ClusterInsights from "./components/ClusterInsights";
 import FuelEfficiencyPrediction from "./components/FuelEfficiencyPrediction";
-import ShapSummaryPlot from "./components/ShapSummaryPlot";
+import FuelEfficiencyChart from "./components/FuelEfficiencyChart";
 
 type SectionKeys = "dataObservability" | "fuelEconomy" | "carbonFootprint" | "predictiveAlerts" | "clusterInsights";
 
@@ -71,13 +71,19 @@ const LandingPage: React.FC = () => {
         {/* Data Observability Section */}
         <div ref={sectionRefs.dataObservability} className="feature-card">
           <h3>DATA OBSERVABILITY</h3>
-          <ShapSummaryPlot />
+          <FuelEfficiencyChart />
         </div>
 
         {/* Fuel Economy Section */}
         <div ref={sectionRefs.fuelEconomy} className="feature-card">
           <h3>FUEL ECONOMY</h3>
           <FuelEfficiencyPrediction />
+        </div>
+
+        {/* Cluster Insights Section */}
+        <div ref={sectionRefs.clusterInsights} className="feature-card">
+          <h3>CLUSTER INSIGHTS</h3>
+          <ClusterInsights />
         </div>
 
         {/* Carbon Footprint Placeholder */}
@@ -92,11 +98,6 @@ const LandingPage: React.FC = () => {
           <p>Content for predictive alerts goes here.</p>
         </div>
 
-        {/* Cluster Insights Section */}
-        <div ref={sectionRefs.clusterInsights} className="feature-card">
-          <h3>CLUSTER INSIGHTS</h3>
-          <ClusterInsights />
-        </div>
       </div>
     </div>
   );
