@@ -25,6 +25,7 @@ const FuelEfficiencyPrediction: React.FC = () => {
 
   const [predictedValue, setPredictedValue] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -35,79 +36,60 @@ const FuelEfficiencyPrediction: React.FC = () => {
   };
 
   const handlePredict = async () => {
+    setIsLoading(true);
+    setError(null);
+    setPredictedValue(null);
+
     try {
-      const response = await axios.post<PredictionResponse>('http://127.0.0.1:5000/predict-fuel-efficiency', inputData);
+      const response = await axios.post<PredictionResponse>(
+        'http://127.0.0.1:5000/predict-fuel-efficiency',
+        inputData,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
       setPredictedValue(response.data.predicted_comb_fe);
-      setError(null);
     } catch (err: any) {
-      setError(err.response ? err.response.data.error : err.message);
+      setError(err.response ? err.response.data.error : 'An unexpected error occurred');
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
-    <div className="fuel-efficiency-prediction max-w-lg mx-auto p-6 bg-white rounded-lg shadow-md">
-      <h2 className="text-2xl font-bold mb-4 text-center">Fuel Efficiency Prediction</h2>
+    <div className="fuel-efficiency-prediction max-w-lg mx-auto p-6 bg-gray-800 rounded-lg shadow-md">
+      <h2 className="text-2xl font-bold mb-4 text-center text-white">Fuel Efficiency Prediction</h2>
       <div className="input-form space-y-4">
-        <div>
-          <label className="block mb-2 text-sm font-medium text-gray-700">Engine Displacement (Eng Displ): </label>
-          <input
-            type="number"
-            name="Eng Displ"
-            value={inputData['Eng Displ']}
-            onChange={handleInputChange}
-            className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
-          />
-        </div>
-        <div>
-          <label className="block mb-2 text-sm font-medium text-gray-700">Number of Cylinders (# Cyl): </label>
-          <input
-            type="number"
-            name="# Cyl"
-            value={inputData['# Cyl']}
-            onChange={handleInputChange}
-            className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
-          />
-        </div>
-        <div>
-          <label className="block mb-2 text-sm font-medium text-gray-700">City Fuel Efficiency (City FE): </label>
-          <input
-            type="number"
-            name="City FE (Guide) - Conventional Fuel"
-            value={inputData['City FE (Guide) - Conventional Fuel']}
-            onChange={handleInputChange}
-            className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
-          />
-        </div>
-        <div>
-          <label className="block mb-2 text-sm font-medium text-gray-700">Highway Fuel Efficiency (Hwy FE): </label>
-          <input
-            type="number"
-            name="Hwy FE (Guide) - Conventional Fuel"
-            value={inputData['Hwy FE (Guide) - Conventional Fuel']}
-            onChange={handleInputChange}
-            className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
-          />
-        </div>
-        <div>
-          <label className="block mb-2 text-sm font-medium text-gray-700">Combined CO2 Emission (Comb CO2): </label>
-          <input
-            type="number"
-            name="Comb CO2 Rounded Adjusted (as shown on FE Label)"
-            value={inputData['Comb CO2 Rounded Adjusted (as shown on FE Label)']}
-            onChange={handleInputChange}
-            className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
-          />
-        </div>
-        <Button label="Predict Fuel Efficiency" onClick={handlePredict} />
+        {Object.keys(inputData).map((key) => (
+          <div key={key}>
+            <label className="block mb-2 text-sm font-medium text-gray-400">{key}: </label>
+            <input
+              type="number"
+              name={key}
+              value={(inputData as any)[key]}
+              onChange={handleInputChange}
+              className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+            />
+          </div>
+        ))}
+        <Button label={isLoading ? 'Loading...' : 'Predict Fuel Efficiency'} onClick={handlePredict} />
       </div>
 
-      {predictedValue !== null && (
-        <div className="result mt-6 text-center text-green-600 font-bold">
+      {isLoading && (
+        <div className="loading mt-6 text-center text-yellow-400 font-bold">
+          <h3>Loading, please wait...</h3>
+        </div>
+      )}
+
+      {predictedValue !== null && !isLoading && (
+        <div className="result mt-6 text-center text-green-400 font-bold">
           <h3>Predicted Combined Fuel Efficiency: {predictedValue.toFixed(2)} MPG</h3>
         </div>
       )}
       {error && (
-        <div className="error mt-4 text-center text-red-600">
+        <div className="error mt-4 text-center text-red-500">
           <p>Error: {error}</p>
         </div>
       )}
