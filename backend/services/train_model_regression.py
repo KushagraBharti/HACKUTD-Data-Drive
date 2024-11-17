@@ -1,15 +1,18 @@
-import os
-import pandas as pd
 import joblib
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_absolute_error, r2_score
+import shap
+import joblib
+import numpy as np
+from sklearn.preprocessing import StandardScaler
+import pandas as pd
 
 # Paths to important files
 DATA_FILE_PATH = '../backend/data/all_toyota_data.xlsx'
-MODEL_FILE_PATH = '../backend/models/fuel_economy_model.pkl'
-SCALER_FILE_PATH = '../backend/models/scaler.pkl'
+MODEL_FILE_PATH = 'C:/Users/bobba/HACKUTD-Data-Drive/backend/services/train_model_regression.py'
+SCALER_FILE_PATH = 'backend/models/scaler.pkl'
 
 # Preprocess the Data
 def preprocess_data(file_path):
@@ -60,6 +63,33 @@ def train_and_save_model():
     joblib.dump(model, MODEL_FILE_PATH)
     # Save the scaler as well, as it will be required to scale new data for predictions
     joblib.dump(scaler, SCALER_FILE_PATH)
+
+# Function to calculate SHAP values
+def calculate_shap_values():
+    # Load model
+    model = joblib.load(MODEL_FILE_PATH)
+    
+    # Load data
+    df = pd.read_excel(DATA_FILE_PATH, engine='openpyxl')
+    
+    # Select relevant features and normalize
+    features = ['Eng Displ', '# Cyl', 'City FE (Guide) - Conventional Fuel', 'Hwy FE (Guide) - Conventional Fuel', 'Comb CO2 Rounded Adjusted (as shown on FE Label)']
+    X = df[features].dropna()
+    
+    # Scale data (if the model was trained on scaled data)
+    scaler = joblib.load('./models/scaler.pkl')
+    X_scaled = scaler.transform(X)
+
+    # Create SHAP explainer
+    explainer = shap.Explainer(model, X_scaled)
+
+    # Calculate SHAP values
+    shap_values = explainer(X_scaled)
+
+    # Save SHAP values for use in visualizations
+    return shap_values, features, X
+
+shap_values, features, X = calculate_shap_values()
 
 # Train the model if this script is run directly
 if __name__ == "__main__":

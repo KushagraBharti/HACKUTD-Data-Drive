@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import LandingPage from './LandingPage';
 import FuelEfficiencyPrediction from './components/FuelEfficiencyPrediction';
-import ClusterInsights from './components/clusterInsights';
+import ClusterInsights from './components/ClusterInsights';
 
 // App component
 const App: React.FC = () => {
