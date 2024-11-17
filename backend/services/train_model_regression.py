@@ -7,9 +7,10 @@ from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_absolute_error, r2_score
 
 # Paths to important files
-DATA_FILE_PATH = '../backend/data/all_toyota_data.xlsx'
-MODEL_FILE_PATH = '../backend/models/fuel_economy_model.pkl'
-SCALER_FILE_PATH = '../backend/models/scaler.pkl'
+DATA_FILE_PATH = 'C:/Users/bobba/HACKUTD-Data-Drive/backend/data/all_toyota_data.xlsx'
+MODEL_FILE_PATH = 'C:/Users/bobba/HACKUTD-Data-Drive/backend/models/fuel_economy_model.pkl'
+SCALER_FILE_PATH = 'C:/Users/bobba/HACKUTD-Data-Drive/backend/models/scaler.pkl'
+
 
 # Preprocess the Data
 def preprocess_data(file_path):

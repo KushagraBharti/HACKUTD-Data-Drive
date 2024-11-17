@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import LandingPage from './LandingPage';
 import FuelEfficiencyPrediction from './components/FuelEfficiencyPrediction';
 import ClusterInsights from './components/ClusterInsights';
+import ShapSummaryPlot from './components/ShapSummaryPlot';
 
 // App component
 const App: React.FC = () => {
@@ -16,6 +17,7 @@ const App: React.FC = () => {
           <FuelEfficiencyPrediction />
         <div className="app min-h-screen bg-gray-100 flex items-center justify-center">
           <ClusterInsights />
+          <ShapSummaryPlot />
       </div>
       </div>
       </div>
