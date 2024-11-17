@@ -13,7 +13,7 @@ def pin_file_to_pinata(filepath, filename):
     }
     with open(filepath, 'rb') as file:
         response = requests.post(url, files={'file': (filename, file)}, headers=headers)
-
+    
     if response.status_code == 200:
         return response.json()
     else:
@@ -27,7 +27,7 @@ def pin_json_to_pinata(json_data):
         'Content-Type': 'application/json'
     }
     response = requests.post(url, json=json_data, headers=headers)
-
+    
     if response.status_code == 200:
         return response.json()
     else:
