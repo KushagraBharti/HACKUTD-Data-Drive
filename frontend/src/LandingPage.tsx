@@ -4,6 +4,7 @@ import carImage from "./white_car_processed.jpg";
 import ClusterInsights from "./components/ClusterInsights";
 import FuelEfficiencyChart from "./components/FuelEfficiencyChart";
 import CarDashboard from "./components/CarDashboard";
+import ClusterGraph from "./components/ClusterGraph";
 
 type SectionKeys = "dataObservability" | "fuelEconomy" | "carbonFootprint" | "predictiveAlerts" | "clusterInsights";
 
@@ -71,6 +72,13 @@ const LandingPage: React.FC = () => {
 
       {/* Flashcards Section */}
       <div className="features-section">
+        
+        {/* Carbon Footprint Placeholder */}
+        <div ref={sectionRefs.carbonFootprint} className="feature-card">
+          <h3>CARS BY CLUSTER</h3>
+          <ClusterGraph />
+        </div>
+        
         {/* Car Dashboard */}
         <div ref={sectionRefs.carbonFootprint} className="feature-card">
           <h3>CAR DASHBOARD</h3>
@@ -87,12 +95,6 @@ const LandingPage: React.FC = () => {
         <div ref={sectionRefs.clusterInsights} className="feature-card">
           <h3>CLUSTER INSIGHTS</h3>
           <ClusterInsights autoInputs={sharedInputs} />
-        </div>
-
-        {/* Carbon Footprint Placeholder */}
-        <div ref={sectionRefs.carbonFootprint} className="feature-card">
-          <h3>CARBON FOOTPRINT</h3>
-          <p>Content for carbon footprint goes here.</p>
         </div>
 
         {/* Predictive Alerts Placeholder */}

@@ -29,20 +29,22 @@ def predict_cluster(input_data):
 
 def generate_cluster_insights(cluster_id):
     insights_map = {
-        0: {
-            "description": "High fuel efficiency vehicles.",
-            "average_comb_fe": 35,
-            "recommendation": "Keep tires inflated and perform regular maintenance."
-        },
-        1: {
-            "description": "Moderate fuel efficiency vehicles.",
-            "average_comb_fe": 25,
-            "recommendation": "Consider eco-friendly driving habits."
-        },
-        2: {
-            "description": "Low fuel efficiency vehicles.",
-            "average_comb_fe": 15,
-            "recommendation": "Plan short trips efficiently."
-        }
+    1: {
+        "description": "Blue, Moderate fuel efficiency vehicles.",
+        "average_comb_fe": 20,
+        "recommendation": "Consider eco-friendly driving habits."
+    },
+    0: {
+        "description": "Orange, High fuel efficiency vehicles.",
+        "average_comb_fe": 30,
+        "recommendation": "Keep tires inflated and perform regular maintenance."
+    },
+    2: {
+        "description": "Green, Low fuel efficiency vehicles.",
+        "average_comb_fe": 45,
+        "recommendation": "Plan short trips efficiently."
     }
+    };
+    
     return insights_map.get(cluster_id, {"description": "No insights available."})
+
