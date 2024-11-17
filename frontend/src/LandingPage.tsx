@@ -1,13 +1,42 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { Link } from 'react-router-dom';
 import './LandingPage.css';
+import carImage from './white_car_processed.jpg';
+
 
 const LandingPage = () => {
-  return (
+  useEffect(() => {
+    const handleScroll = () => {
+      const car = document.querySelector('.car-animation') as HTMLElement;
+      if (car) {
+        // Get the total scrollable height of the page
+        const scrollTop = window.scrollY;
+        const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+        const scrollFraction = scrollTop / maxScroll;
+
+        // Calculate the translation value for right-to-left movement
+        const maxTranslateX = window.innerWidth; // Maximum distance to travel across the viewport width
+        const translateX = scrollFraction * maxTranslateX; // Move proportionally to scroll amount
+
+        // Apply transformation to move the car from right to left
+        car.style.transform = `translateX(-${translateX}px)`; // Negative value moves left
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
+  
+  return ( 
+    
     <div className="landing-page-container">
       <header className="landing-header">
-        <h1>DataDrive</h1>
-        <p>Optimize fuel efficiency, reduce emissions, and gain insights with our AI-powered dashboard.</p>
+        <h1 className="typing-animation">DataDrive.</h1>
+        <p><em>Optimize fuel efficiency, reduce emissions, and gain insights with our AI-powered dashboard.</em></p>
+        <img src={carImage} alt="Car" className="car-animation" />
       </header>
 
       <nav className="landing-navigation">
