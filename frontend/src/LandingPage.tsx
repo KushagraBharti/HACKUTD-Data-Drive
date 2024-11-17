@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import "./styles.css";
 import carImage from "./white_car_processed.jpg";
 import ClusterInsights from "./components/ClusterInsights";
@@ -20,6 +20,25 @@ const LandingPage: React.FC = () => {
     sectionRefs[key]?.current?.scrollIntoView({ behavior: "smooth" });
   };
 
+  useEffect(() => {
+    const handleScroll = () => {
+      const car = document.querySelector(".car-animation") as HTMLElement;
+      if (car) {
+        const scrollTop = window.scrollY;
+        const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+        const scrollFraction = scrollTop / maxScroll;
+        const maxTranslateX = window.innerWidth;
+        const translateX = scrollFraction * maxTranslateX;
+        car.style.transform = `translateX(-${translateX}px)`;
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
     <div className="landing-page-container">
       {/* Header Section */}
@@ -27,7 +46,8 @@ const LandingPage: React.FC = () => {
         <h1 className="typing-animation">DataDrive.</h1>
         <p>
           <em>
-            Optimize fuel efficiency, reduce emissions, and gain insights with our AI-powered dashboard.
+            Optimize fuel efficiency, reduce emissions, and gain insights with
+            our AI-powered dashboard.
           </em>
         </p>
         <img src={carImage} alt="Car" className="car-animation" />

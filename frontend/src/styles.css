@@ -29,11 +29,46 @@ body {
   }
   
   .typing-animation {
-    font-size: 3.5em;
+    font-size: 8.5em;
     font-weight: bold;
     background: linear-gradient(45deg, #60a5fa, #3b82f6);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    white-space: nowrap;
+    overflow: hidden;
+    border-right: 3px solid; /* Cursor effect */
+    width: 0; /* Hidden initially */
+    display: inline-block;
+    animation: typing 2s steps(10, end) forwards, blink 0.75s step-end infinite;
+  }
+  
+  @keyframes typing {
+    from {
+      width: 0;
+    }
+    to {
+      width: 100%;
+    }
+  }
+  
+  @keyframes blink {
+    50% {
+      border-color: transparent;
+    }
+  }
+  
+  .landing-header p {
+    font-size: 1.2em;
+    color: #94a3b8;
+  }
+  
+  .car-animation {
+    position: absolute;
+    bottom: 290px;
+    right: 0px;
+    width: 100px;
+    transition: transform 0.5s linear;
+    will-change: transform;
   }
   
   /* Navigation Buttons */
