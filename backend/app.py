@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_file
 from flask_cors import CORS
 from routes.data_routes import data_routes
 from routes.pinata_routes import pinata_routes
@@ -84,6 +84,13 @@ def predict_cluster_endpoint():
         # Log any errors
         print("Error in /predict-cluster:", str(e))
         return jsonify({"error": str(e)}), 500
+    
+@app.route('/shap-summary', methods=['GET'])
+def get_shap_summary():
+    try:
+        return send_file('./visualizations/shap_summary_plot.png', mimetype='image/png')
+    except Exception as e:
+        return {'error': str(e)}
 
 if __name__ == '__main__':
     app.run(debug=True)
