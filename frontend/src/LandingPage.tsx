@@ -15,7 +15,9 @@ const LandingPage = () => {
         <Link to="/fuel-economy-visualizer" className="nav-button">Fuel Economy Visualizer</Link>
         <Link to="/carbon-footprint-insights" className="nav-button">Carbon Footprint Insights</Link>
         <Link to="/predictive-alerts" className="nav-button">Predictive Alerts</Link>
+        <Link to="/cluster-insights" className="nav-button">Cluster Insights</Link>
       </nav>
+
 
       <section className="features-section">
         <div className="feature-card">

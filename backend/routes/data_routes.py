@@ -1,8 +1,40 @@
 from flask import Blueprint, request, jsonify
 from services.data_observability import log_event, detect_redundancy
 from services.fuel_economy import generate_insights, data
+from services.cluster_service import predict_cluster, generate_cluster_insights
 
 data_routes = Blueprint('data_routes', __name__)
+
+@data_routes.route('/predict-cluster', methods=['POST'])
+def predict_cluster_endpoint():
+    try:
+        # Log received data
+        print("Received data:", request.json)
+
+        # Extract features from request
+        features = [
+            'City FE (Guide) - Conventional Fuel',
+            'Hwy FE (Guide) - Conventional Fuel',
+            'Comb FE (Guide) - Conventional Fuel',
+            'Annual Fuel1 Cost - Conventional Fuel'
+        ]
+
+        # Convert data to the required format
+        input_data = {feature: request.json.get(feature) for feature in features}
+        print("Processed input data:", input_data)
+
+        # Predict cluster
+        cluster_id = predict_cluster(input_data)
+
+        # Generate insights based on the cluster
+        insights = generate_cluster_insights(cluster_id)
+
+        # Return the response
+        return jsonify({"cluster_id": cluster_id, "insights": insights}), 200
+
+    except Exception as e:
+        print("Error in /predict-cluster:", str(e))
+        return jsonify({"error": str(e)}), 500
 
 @data_routes.route('/historical-data', methods=['GET'])
 def get_historical_data():

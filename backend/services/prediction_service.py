@@ -3,8 +3,8 @@ import joblib
 import os
 
 # Paths to model and scaler files
-MODEL_FILE_PATH = './backend/models/fuel_economy_model.pkl'
-SCALER_FILE_PATH = './backend/models/scaler.pkl'
+MODEL_FILE_PATH = '../backend/models/fuel_economy_model.pkl'
+SCALER_FILE_PATH = '../backend/models/scaler.pkl'
 
 # Load the model and scaler
 def load_model_and_scaler():
