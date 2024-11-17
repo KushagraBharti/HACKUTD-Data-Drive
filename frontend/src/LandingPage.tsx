@@ -4,7 +4,11 @@ import carImage from "./white_car_processed.jpg";
 import ClusterInsights from "./components/ClusterInsights";
 import FuelEfficiencyChart from "./components/FuelEfficiencyChart";
 import CarDashboard from "./components/CarDashboard";
+
+import CarCanvas from "./components/CarModel";
+
 import ClusterGraph from "./components/ClusterGraph";
+
 
 type SectionKeys = "dataObservability" | "fuelEconomy" | "clusterInsights";
 
@@ -80,7 +84,7 @@ const LandingPage: React.FC = () => {
             our AI-powered dashboard.
           </em>
         </p>
-        <img src={carImage} alt="Car" className="car-animation" />
+        <CarCanvas />
       </header>
 
       {/* Discrete Sticky Navigation Buttons */}
