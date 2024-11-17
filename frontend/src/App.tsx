@@ -5,21 +5,20 @@ import FuelEfficiencyPrediction from './components/FuelEfficiencyPrediction';
 import ClusterInsights from './components/ClusterInsights';
 import ShapSummaryPlot from './components/ShapSummaryPlot';
 
-// App component
 const App: React.FC = () => {
   return (
     <Router>
-      <div className="app">
+      <div className="min-h-screen w-full bg-[#1a1a1a]">
         <Routes>
           <Route path="/" element={<LandingPage />} />
         </Routes>
-        <div className="app min-h-screen bg-gray-100 flex items-center justify-center">
+        
+        {/* Components container */}
+        <div className="space-y-8 p-6 max-w-7xl mx-auto">
           <FuelEfficiencyPrediction />
-        <div className="app min-h-screen bg-gray-100 flex items-center justify-center">
           <ClusterInsights />
           <ShapSummaryPlot />
-      </div>
-      </div>
+        </div>
       </div>
     </Router>
   );
