@@ -98,6 +98,13 @@ const LandingPage: React.FC = () => {
 
       {/* Flashcards Section */}
       <div className="features-section">
+
+        {/* Cluster Graph */}
+        <div ref={sectionRefs.dataObservability} className="feature-card fade-in">
+          <h3>CAR DASHBOARD</h3>
+          <ClusterGraph />
+        </div>
+
         {/* Car Dashboard */}
         <div ref={sectionRefs.dataObservability} className="feature-card fade-in">
           <h3>CAR DASHBOARD</h3>
