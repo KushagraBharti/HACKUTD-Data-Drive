@@ -10,12 +10,12 @@ client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 def explain_result(model_name, input_data, result):
     """
-    Use GPT to generate a human-friendly explanation for the results.
+    Stream GPT-generated explanation for the given model result.
 
     :param model_name: Name of the model (e.g., "Clustering Model").
     :param input_data: The input data provided by the user.
     :param result: The result from the model.
-    :return: A human-friendly explanation string.
+    :return: Generator yielding chunks of the explanation text.
     """
     pre_information = """
     The clustering model is a K-Means algorithm trained on vehicle fuel economy data. 
@@ -48,11 +48,14 @@ def explain_result(model_name, input_data, result):
     Input Data: {input_data}
     Result: {result}
 
-    Explain the following:
-    1. What does the model do?
-    2. How was the model trained and what methods were used?
-    3. What do the input data and result represent?
-    4. Provide actionable insights or interpretations based on the result.
+    Please provide a structured explanation with the following sections:
+    1. Model Overview: Briefly describe the model's purpose and functionality. Be concise.
+    2. Training Methodology: Summarize the training process and methods used. Be concise.
+    3. Input and Output Interpretation: Explain the significance of the input data and the resulting output. Be concise.
+    4. Actionable Insights: Offer clear, actionable recommendations based on the results. Be concise.
+
+    Ensure the explanation is concise and to the point.
+    STRIP ANY FORMATTING OF ANY SORT FROM YOUR RESPONSE.
     """
 
     try:
@@ -62,7 +65,7 @@ def explain_result(model_name, input_data, result):
                 {"role": "system", "content": "You are an expert data scientist who explains machine learning results to non-technical users."},
                 {"role": "user", "content": prompt},
             ],
-            model="gpt-4",  # Use GPT-4 for better explanations
+            model="gpt-4o-mini",  # Use GPT-4 for better explanations
         )
 
         # Extract and return the explanation
