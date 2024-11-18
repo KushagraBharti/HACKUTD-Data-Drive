@@ -1,156 +1,129 @@
 /* General Styles */
 body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: linear-gradient(-45deg, #0b0000, #0f0f0f, #060000, #1f1f1f); /* Original dark gray gradient colors */
-  background-size: 400% 400%;
-  animation: gradientBG 15s ease infinite; /* Infinite loop for background gradient animation */
-  color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-}
-
-/* Animation Keyframes for Background */
-@keyframes gradientBG {
-  0% {
-    background-position: 0% 50%;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #1a1a1a;
+    color: white;
+    display: flex; /* Flexbox for body */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    min-height: 100vh; /* Full height */
   }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
-
-/* Landing Page Styles */
-.landing-page-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  min-height: 100vh;
-  width: 100%;
-  max-width: 1200px;
-  padding: 20px;
-  box-sizing: border-box;
-  position: relative; /* Position relative to allow children elements to be positioned absolutely */
-  z-index: 1; /* Keep container above the animated background */
-}
-
-.landing-header {
-  margin-bottom: 40px;
-}
-
-.typing-animation {
-  font-size: 10em;
-  font-weight: bold;
-  background: linear-gradient(45deg, #0c4271, #0a81ab);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  white-space: nowrap;
-  overflow: hidden;
-  border-right: 3px solid;
-  width: 0;
-  display: inline-block;
-  animation: typing 2s steps(10, end) forwards, blink 0.75s step-end infinite;
-}
-
-@keyframes typing {
-  from {
-    width: 0;
-  }
-  to {
+  
+  /* Landing Page Styles */
+  .landing-page-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; /* Center contents vertically */
+    text-align: center;
+    min-height: 100vh; /* Full height of viewport */
     width: 100%;
+    max-width: 1200px;
+    padding: 20px;
+    box-sizing: border-box; /* Include padding in width/height calculations */
   }
-}
-
-@keyframes blink {
-  50% {
-    border-color: transparent;
+  
+  .landing-header {
+    margin-bottom: 40px;
   }
-}
-
-/* Discrete Sticky Navigation Buttons */
-.landing-navigation {
-  position: sticky;
-  top: 0;
-  background-color: rgba(9, 9, 9, 0.9); /* Subtle dark gray for navbar */
-  padding: 8px 0;
-  width: 100%;
-  border-radius: 10px;
-  display: flex;
-  justify-content: center;
-  gap: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-  z-index: 2;
-}
-
-.car-container {
-  margin-top: 20px; /* Add some spacing from the tagline */
-  max-width: 800px; /* Limit the width to avoid taking up too much space */
-  width: 100%;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.landing-header {
-  text-align: center; /* Ensure the header is centered properly */
-  margin-bottom: 20px;
-}
-
-.nav-button {
-  padding: 10px 18px;
-  background-color: rgba(36, 36, 36, 0.9); /* Slightly darker gray for button */
-  border: none;
-  border-radius: 6px;
-  color: #e0e0e0; /* Lighter color for text */
-  font-size: 0.95em;
-  cursor: pointer;
-  transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
-  outline: none;
-}
-
-.nav-button:hover {
-  background-color: rgba(70, 70, 70, 0.9);
-  transform: scale(1.04);
-}
-
-/* Flashcard Styles */
-.features-section {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 25px;
-  width: 100%;
-  max-width: 1200px;
-}
-
-.feature-card {
-  padding: 18px;
-  border-radius: 10px;
-  background: linear-gradient(145deg, #090000, #232222); /* Dark gray gradient for feature cards */
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
-  text-align: center;
-  width: 100%;
-  max-width: 800px;
-  transition: transform 0.3s ease;
-  opacity: 0;
-  transform: translateY(20px);
-}
-
-.feature-card:hover {
-  transform: scale(1.03);
-}
-
-/* Fade-In Animation for Feature Cards */
-.fade-in {
-  transition: opacity 1s ease-out, transform 1s ease-out;
-}
-
-.fade-in-visible {
-  opacity: 1;
-  transform: translateY(0);
-}
+  
+  .typing-animation {
+    font-size: 10em;
+    font-weight: bold;
+    background: linear-gradient(45deg, #60a5fa, #3b82f6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    white-space: nowrap;
+    overflow: hidden;
+    border-right: 3px solid; /* Cursor effect */
+    width: 0; /* Hidden initially */
+    display: inline-block;
+    animation: typing 2s steps(10, end) forwards, blink 0.75s step-end infinite;
+  }
+  
+  @keyframes typing {
+    from {
+      width: 0;
+    }
+    to {
+      width: 100%;
+    }
+  }
+  
+  @keyframes blink {
+    50% {
+      border-color: transparent;
+    }
+  }
+  
+  .landing-header p {
+    font-size: 1.2em;
+    color: #94a3b8;
+  }
+  
+  .car-animation {
+    position: absolute;
+    bottom: 750px;
+    right: 100px;
+    width: 100px;
+    transition: transform 0.2s linear;
+    will-change: transform;
+  }
+  
+  /* Navigation Buttons */
+  .landing-navigation {
+    position: sticky;
+    top: 0;
+    background-color: dark-gray; /* Subtle dark gray for navbar */
+    padding: 8px 0;
+    width: 100%;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    z-index: 2;
+  }
+  
+  .nav-button {
+    padding: 12px 24px;
+    background-color: #2563eb;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+  }
+  
+  .nav-button:hover {
+    background-color: #1d4ed8;
+  }
+  
+  /* Flashcard Styles */
+  .features-section {
+    display: flex; /* Flexbox for centering */
+    flex-direction: column;
+    align-items: center; /* Center horizontally */
+    justify-content: center; /* Center vertically */
+    gap: 30px; /* Space between cards */
+    width: 100%;
+    max-width: 1200px; /* Restrict maximum width */
+  }
+  
+  .feature-card {
+    padding: 20px;
+    border-radius: 12px;
+    background: linear-gradient(145deg, #222222, #2d2d2d);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    width: 100%;
+    max-width: 800px; /* Restrict card width */
+    transition: transform 0.3s ease;
+  }
+  
+  .feature-card:hover {
+    transform: scale(1.03);
+  }
+  
