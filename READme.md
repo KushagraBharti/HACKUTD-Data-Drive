@@ -23,10 +23,8 @@ DataDrive is a full-stack platform that combines **AI-powered insights** with **
 
 ### **Backend**
 - **Framework:** Flask (Python)
-- **Database:** SQLite (Local) / PostgreSQL (Deployed)
 - **ML Models:** scikit-learn, TensorFlow
 - **Job Scheduling:** APScheduler
-- **Tamper-proof Logs:** Pinata API (IPFS integration)
 
 ---
 
@@ -37,7 +35,6 @@ Ensure the following tools are installed:
 - **Python** (3.8 or later)
 - **Node.js** (16.x or later)
 - **Yarn** (or npm)
-- **SQLite** or **PostgreSQL** (for deployment)
 
 ### **Step 1: Clone the Repository**
 ```bash
